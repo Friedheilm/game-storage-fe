@@ -4,18 +4,31 @@ class ObjectList extends Component {
   constructor() {
     super();
     this.state = {
-      objects: [], // To store the fetched objects
+      games: [], // To store the fetched objects
       isLoading: true, // To track loading state
     };
   }
 
   componentDidMount() {
+    // Access the API key  and base URL from process.env
+    const baseUrl = process.env.REACT_APP_baseUrl;
+    
+    // Define custom headers in an options object
+    const requestOptions = {
+      method: 'GET', // You can change the HTTP method as needed
+      headers: {
+        'Content-Type': 'application/json', // Set your custom headers here
+      },
+    };
+
+    console.log(requestOptions);
+    
     // Fetch data from a remote server (replace with your API endpoint)
-    fetch('https://api.example.com/objects')
+    fetch('/games')
       .then((response) => response.json())
       .then((data) => {
         this.setState({
-          objects: data, // Store the fetched objects in state
+          games: data, // Store the fetched objects in state
           isLoading: false, // Update loading state
         });
       })
@@ -25,7 +38,7 @@ class ObjectList extends Component {
   }
 
   render() {
-    const { objects, isLoading } = this.state;
+    const { games, isLoading } = this.state;
 
     if (isLoading) {
       return <div>Loading...</div>;
@@ -33,10 +46,10 @@ class ObjectList extends Component {
 
     return (
       <div>
-        <h1>List of Objects</h1>
+        <h1>List of Games</h1>
         <ul>
-          {objects.map((object) => (
-            <li key={object.id}>{object.name}</li>
+          {games.map((games) => (
+            <li key={games.id}>{games.name}</li>
             // Replace 'id' and 'name' with the actual properties of your objects
           ))}
         </ul>
